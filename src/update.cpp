@@ -8,7 +8,7 @@ Update::Update(const QSqlDatabase &d, const QString &table, const Value &values)
     Query(d),
     stream(forStream())
 {
-    stream << "UPDATE " << table << " ";
+    stream << "UPDATE " << table << " SET ";
     size_t count = 0;
     for (const auto &val : values) {
         ++count;
