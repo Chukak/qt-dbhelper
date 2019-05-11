@@ -26,6 +26,7 @@ void QueryStream::convert(QVariant &&value)
     case QMetaType::UChar:
     case QMetaType::SChar:
     case QMetaType::Char:
+    case QMetaType::QChar:
         stream << value.toChar();
         break;
     case QMetaType::UShort:
@@ -45,6 +46,9 @@ void QueryStream::convert(QVariant &&value)
     case QMetaType::ULong:
     case QMetaType::ULongLong:
         stream << value.toULongLong();
+        break;
+    case QMetaType::QString:
+        stream << value.toString();
         break;
     // todo
     case QMetaType::QTime:
