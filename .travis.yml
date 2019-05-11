@@ -10,6 +10,8 @@ matrix:
           packages:
             - gcc-7
             - g++-7
+            - build-essential
+            - qt5-default
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
@@ -20,7 +22,7 @@ install: true
 
 script:
   - export DEBIAN_FRONTEND=noninteractive
-  - sudo apt-get -y install mysql-community-server mysql-server
+  - sudo apt-get -y install mysql-server
   - mysql -u root -p12345678 -e "GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'localhost' IDENTIFIED BY '12345678';"
   - sudo apt-get -y install libqt5sql5-mysql
   - mkdir build && cd build
