@@ -15,7 +15,7 @@ public:
     Insert(const QSqlDatabase &d, const QString &table, const Value &values);
     Insert(const Insert &i) = delete;
     Insert(Insert &&i) = delete;
-    ~Insert() final;
+    ~Insert() final = default;
 
     Insert& operator=(const Insert &i) = delete;
     Insert& operator=(Insert &&i) = delete;

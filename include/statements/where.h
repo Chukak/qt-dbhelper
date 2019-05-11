@@ -13,7 +13,7 @@ public:
     Where();
     Where(const Where &w) = delete;
     Where(Where &&w) = delete;
-    ~Where() final;
+    ~Where() final = default;
 
     Where& operator=(const Where &w) = delete;
     Where& operator=(Where &&w) = delete;

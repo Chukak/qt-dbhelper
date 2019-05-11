@@ -17,7 +17,7 @@ public:
     Select(const QSqlDatabase &d, const ColumnList &columns, const From &from);
     Select(const Select &s) = delete;
     Select(Select &&s) = delete;
-    ~Select() final;
+    ~Select() final = default;
 
     Select& operator=(const Select &s) = delete;
     Select& operator=(Select &&s) = delete;
@@ -37,6 +37,7 @@ public:
 
     inline bool next() noexcept { return sql.next(); }
     inline QVariant value(int index) noexcept { return sql.value(index); }
+    inline int size() const noexcept { return sql.size(); }
     inline QSqlQuery& pureQuery() noexcept { return sql; }
 };
 

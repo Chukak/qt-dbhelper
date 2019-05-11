@@ -16,7 +16,7 @@ public:
     Update(const QSqlDatabase &d, const QString &table, const Value &values);
     Update(const Update &u) = delete;
     Update(Update &&u) = delete;
-    ~Update() final;
+    ~Update() final = default;
 
     Update& operator=(const Update &u) = delete;
     Update& operator=(Update &&u) = delete;

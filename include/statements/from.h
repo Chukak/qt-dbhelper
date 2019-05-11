@@ -13,7 +13,7 @@ public:
     From();
     From(const From &w) = delete;
     From(From &&w) = delete;
-    ~From() final;
+    ~From() final = default;
 
     From& operator=(const From &w) = delete;
     From& operator=(From &&w) = delete;

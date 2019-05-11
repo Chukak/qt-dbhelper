@@ -14,7 +14,7 @@ public:
     PureQuery(const QSqlDatabase &d, const QString &query);
     PureQuery(const PureQuery &q) = delete;
     PureQuery(PureQuery &&q) = delete;
-    ~PureQuery() final;
+    ~PureQuery() final = default;
 
     PureQuery& operator=(const PureQuery &q) = delete;
     PureQuery& operator=(PureQuery &&q) = delete;
@@ -23,6 +23,7 @@ public:
 
     inline bool next() noexcept { return sql.next(); }
     inline QVariant value(int index) noexcept { return sql.value(index); }
+    inline int size() const noexcept { return sql.size(); }
     inline QSqlQuery& pureQuery() noexcept { return sql; }
 };
 
