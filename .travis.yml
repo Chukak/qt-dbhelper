@@ -11,20 +11,29 @@ matrix:
             - gcc-7
             - g++-7
             - build-essential
-            - qt5-default
+            #- qt5-default
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
 before_install:
   - eval "${MATRIX_EVAL}"
-
-install: true
-
-script:
+  - echo ""
   - export DEBIAN_FRONTEND=noninteractive
+  - wget https://dev.mysql.com/get/mysql-apt-config_0.8.13-1_all.deb
+  - sudo dpkg -i mysql-apt-config_0.8.13-1_all.deb
+  - sudo apt-get update
   - sudo apt-get -y install mysql-server
   - mysql -u root -p12345678 -e "GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'localhost' IDENTIFIED BY '12345678';"
   - sudo apt-get -y install libqt5sql5-mysql
+  - echo ""
+  - sudo add-apt-repository ppa:beineri/ubuntu/opt-qt595-trusty
+  - sudo apt update
+  - sudo apt install qt59-meta-full
+  - echo ""
+
+install: true
+
+script:  
   - mkdir build && cd build
   - cmake ../
   - make
