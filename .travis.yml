@@ -1,0 +1,62 @@
+language: cpp
+
+matrix:
+  include: 
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - build-essential
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+  - echo ""
+  - sudo apt-get install -y dpkg
+  - echo ""
+  - export DEBIAN_FRONTEND=noninteractive
+  - sudo add-apt-repository -y ppa:beineri/opt-qt597-trusty
+  - sudo apt-get update
+  - sudo apt-get -y --allow-unauthenticated install qt59-meta-minimal
+  - echo ""
+  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6B05F25D762E3157
+  - wget https://dev.mysql.com/get/mysql-apt-config_0.8.9-1_all.deb
+  - sudo dpkg -i mysql-apt-config_0.8.9-1_all.deb
+  - cat /etc/apt/sources.list.d/mysql.list
+  - sudo apt-get update
+  - sudo debconf-set-selections <<< 'mysql-community-server mysql-community-server/root-pass password 12345678'
+  - sudo debconf-set-selections <<< 'mysql-community-server mysql-community-server/re-root-pass password 12345678'
+  - sudo apt-get -y --allow-unauthenticated install mysql-community-server
+  - mysql --version
+  - echo ""
+  - mysql_upgrade --force -u root 
+  - mysql -u root -e "UPDATE mysql.user SET authentication_string=PASSWORD('12345678') WHERE User='root';" 
+  - mysql -u root -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');" 
+  - mysql -u root -e "DELETE FROM mysql.user WHERE User='';" 
+  - mysql -u root -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';" 
+  - mysql -u root -e "FLUSH PRIVILEGES;"
+  - mysql -u root -p12345678 -e "GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'localhost' IDENTIFIED BY '12345678';"
+  - sudo apt-get -y install libqt5sql5-mysql
+  - echo ""
+
+install: true
+
+script:  
+  - mkdir build && cd build
+  - cmake ../
+  - make
+  - ldd libqt-dbhelper.so
+  - cd ../
+  - rm -rf build
+  - echo "---------------------------------------------------------------------------------------------------------"
+  - mkdir build && cd build
+  - cmake ../tests
+  - make VERBOSE=1
+  - ./qt-dbhelper-tests
+  - cd ../
+  - rm -rf build
