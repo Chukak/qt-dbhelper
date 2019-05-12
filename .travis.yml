@@ -18,6 +18,8 @@ matrix:
 before_install:
   - eval "${MATRIX_EVAL}"
   - echo ""
+  - sudo apt-get install -y dpkg
+  - echo ""
   - export DEBIAN_FRONTEND=noninteractive
   - wget https://dev.mysql.com/get/mysql-apt-config_0.8.13-1_all.deb
   - sudo dpkg -i mysql-apt-config_0.8.13-1_all.deb
