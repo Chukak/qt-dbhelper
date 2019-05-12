@@ -26,7 +26,11 @@ before_install:
   - cat /etc/apt/sources.list.d/mysql.list
   - sudo apt-get update
   #- sudo apt install mysql-client-core
-  - sudo apt-get -y --allow-unauthenticated install mysql-community-server mysql-common
+  - sudo debconf-set-selections <<< 'mysql-community-server mysql-community-server/root-pass password 12345678'
+  - sudo debconf-set-selections <<< 'mysql-community-server mysql-community-server/re-root-pass password 12345678'
+  - sudo apt-get -y --allow-unauthenticated install mysql-community-server
+  - sudo apt-get -y --allow-unauthenticated install mysql-common
+  - mysql --version
   - mysql -u root -p12345678 -e "GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'localhost' IDENTIFIED BY '12345678';"
   - sudo apt-get -y install libqt5sql5-mysql
   - echo ""
