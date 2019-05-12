@@ -32,7 +32,7 @@ before_install:
   - sudo apt-get -y --allow-unauthenticated install mysql-community-server
   - mysql --version
   - mysql_upgrade --force -u root 
-  - mysql -u root -e "UPDATE mysql.user SET Password=PASSWORD('12345678') WHERE User='root';" 
+  - mysql -u root -e "UPDATE mysql.user SET authentication_string=PASSWORD('12345678') WHERE User='root';" 
   - mysql -u root -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');" 
   - mysql -u root -e "DELETE FROM mysql.user WHERE User='';" 
   - mysql -u root -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';" 
