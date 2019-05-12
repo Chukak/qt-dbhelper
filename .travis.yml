@@ -21,12 +21,12 @@ before_install:
   - sudo apt-get install -y dpkg
   - echo ""
   - export DEBIAN_FRONTEND=noninteractive
-  - wget https://dev.mysql.com/get/mysql-apt-config_0.8.13-1_all.deb
-  - sudo dpkg -i mysql-apt-config_0.8.13-1_all.deb
+  - wget https://dev.mysql.com/get/mysql-apt-config_0.8.9-1_all.deb
+  - sudo dpkg -i mysql-apt-config_0.8.9-1_all.deb
   - cat /etc/apt/sources.list.d/mysql.list
   - sudo apt-get update
-  - sudo apt install mysql-client-core
-  - sudo apt-get -y install mysql-server
+  #- sudo apt install mysql-client-core
+  - sudo apt-get -y install mysql-server-5.7
   - mysql -u root -p12345678 -e "GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'localhost' IDENTIFIED BY '12345678';"
   - sudo apt-get -y install libqt5sql5-mysql
   - echo ""
