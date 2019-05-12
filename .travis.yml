@@ -29,9 +29,10 @@ before_install:
   - sudo debconf-set-selections <<< 'mysql-community-server mysql-community-server/root-pass password 12345678'
   - sudo debconf-set-selections <<< 'mysql-community-server mysql-community-server/re-root-pass password 12345678'
   - sudo apt-get -y --allow-unauthenticated install mysql-community-server
-  - sudo apt-get -y --allow-unauthenticated install mysql-common
+  - sudo mysql_secure_installation
   - mysql --version
   - mysql -u root -p12345678 -e "GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'localhost' IDENTIFIED BY '12345678';"
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'localhost' IDENTIFIED BY '12345678';"
   - sudo apt-get -y install libqt5sql5-mysql
   - echo ""
   - sudo add-apt-repository ppa:beineri/ubuntu/opt-qt595-trusty
