@@ -29,7 +29,7 @@ public:
         size_t count = 0, size = sizeof...(columns);
         if (size)
             stream << " ORDER BY ";
-        [[maybe_unused]]int _[] = {0, (stream << columns << ( size != count++ ? " , " : "")) ... };
+        [[maybe_unused]]int _[] = {0, ((stream << columns << (size != ++count ? " , " : "")), 0) ...};
     }
     void limit(size_t number);
 
