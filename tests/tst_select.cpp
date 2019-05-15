@@ -35,6 +35,7 @@ TEST(TestDBHelper_, SelectWithWhere)
 
     Select s(SQL::getDatabase(), list, f);
     s.addWhere(w);
+    s.orderBy("id");
     EXPECT_TRUE(s.prepare());
     EXPECT_TRUE(s.exec());
     for (int i = 0; i < s.size(); ++i) {
