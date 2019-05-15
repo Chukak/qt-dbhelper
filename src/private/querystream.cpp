@@ -1,6 +1,10 @@
 #include "private/querystream.h"
+#include "querytype.h"
+#include <QDateTime>
+#include <QtDebug>
 
 using namespace __dbhelper_private;
+using namespace dbhelper;
 
 QueryStream::QueryStream(QString *string) :
     stream(string)
@@ -20,8 +24,7 @@ void QueryStream::convert(QVariant &&value)
         stream << value.toInt();
         break;
     case QMetaType::Bool:
-        // todo
-        stream << value.toBool();
+        stream << (value.toBool() ? "true" : "false");
         break;
     case QMetaType::UChar:
     case QMetaType::SChar:
@@ -50,12 +53,23 @@ void QueryStream::convert(QVariant &&value)
     case QMetaType::QString:
         stream << value.toString();
         break;
-    // todo
     case QMetaType::QTime:
+        stream << "'" << value.toTime().toString(DateFormat::getTimeFormat()) << "'";
+        break;
     case QMetaType::QDate:
+        stream << "'" << value.toDate().toString(DateFormat::getDateFormat()) << "'";
+        break;
     case QMetaType::QDateTime:
+        stream << "'" << value.toDateTime().toString(DateFormat::getDateTimeFormat()) << "'";
+        break;
+    case QMetaType::User:
+        if (value.canConvert<Timestamp>())
+            value.value<Timestamp>().toStream(stream);
+        else
+            qCritical() << "Custom type not supported!";
         break;
     default:
+        qCritical() << "Type not supported!";
         break;
     }
 }
