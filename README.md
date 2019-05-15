@@ -2,7 +2,7 @@
 
 ## Documentation
 
-TODO
+[Documentation](https://github.com/Chukak/qt-dbhelper/wiki)
 
 ## How to compile
 
