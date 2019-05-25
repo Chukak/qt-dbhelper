@@ -6,13 +6,21 @@
 
 ## How to compile
 
-You need `g++` 7+ version or early version, which support `17` standart (`-std=c++17`). 
+You need `g++` 7+ version or early version, which support `17` standart (`-std=c++17`) or you need `g++` version, which support minimum `11` standart (`-std=c++11`).
+
 Also, Qt 5.9.5 version (at the moment) or newer. CMake version 3.0 or newer.
 
-Run command:
+Run command(by default):
 ```bash
 mkdir build && cd build
 cmake ../
+make
+```
+
+Run command(custom version):
+```bash
+mkdir build && cd build
+cmake -DSTD_VERSION=11
 make
 ```
 
