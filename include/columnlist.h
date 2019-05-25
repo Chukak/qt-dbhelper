@@ -22,9 +22,18 @@ public:
     ColumnList& operator<<(QString &&s) noexcept;
 
     inline size_t size() const noexcept { return list.size(); }
-
-    auto begin() const noexcept { return list.cbegin(); }
-    auto end() const noexcept { return list.cend(); }
+#if __cplusplus < 201402L
+    QStringList::ConstIterator
+#else
+    auto
+#endif
+    begin() const noexcept { return list.cbegin(); }
+#if __cplusplus < 201402L
+    QStringList::ConstIterator
+#else
+    auto
+#endif
+    end() const noexcept { return list.cend(); }
 };
 
 }

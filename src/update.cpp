@@ -10,7 +10,11 @@ Update::Update(const QSqlDatabase &d, const QString &table, const Value &values)
 {
     stream << "UPDATE " << table << " SET ";
     size_t count = 0;
+#if __cplusplus < 201402L
+    for (const std::pair<QString, QVariant> &val : values) {
+#else
     for (const auto &val : values) {
+#endif
         ++count;
         stream << val.first << " = " << val.second << (count < values.size() ? " , " : " ");
     }

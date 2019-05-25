@@ -10,13 +10,21 @@ Insert::Insert(const QSqlDatabase &d, const QString &table, const Value &values)
 {
     stream << "INSERT INTO " << table << " ( ";
     size_t count = 0;
+#if __cplusplus < 201402L
+    for (const std::pair<QString, QVariant> &val : values) {
+#else
     for (const auto& val : values) {
+#endif
         count++;
         stream << val.first << (count < values.size() ? " , " : " ");
     }
     stream << " ) VALUES ( ";
     count = 0;
+#if __cplusplus < 201402L
+    for (const std::pair<QString, QVariant> &val : values) {
+#else
     for (const auto& val : values) {
+#endif
         count++;
         stream << val.second << (count < values.size() ? " , " : " ");
     }

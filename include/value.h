@@ -39,9 +39,18 @@ public:
 
     inline size_t size() const noexcept { return values.size(); }
     QVariant valueAt(const QString &column) const noexcept;
-
-    auto begin() const noexcept { return values.cbegin(); }
-    auto end() const noexcept { return values.cend(); }
+#if __cplusplus < 201402L
+    std::vector<std::pair<QString, QVariant>>::const_iterator
+#else
+    auto
+#endif
+    begin() const noexcept { return values.cbegin(); }
+#if __cplusplus < 201402L
+    std::vector<std::pair<QString, QVariant>>::const_iterator
+#else
+    auto
+#endif
+    end() const noexcept { return values.cend(); }
 };
 
 template<>

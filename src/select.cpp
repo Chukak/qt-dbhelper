@@ -10,7 +10,11 @@ Select::Select(const QSqlDatabase &d, const ColumnList &columns, const From &fro
 {
     stream << "SELECT ";
     size_t count = 0;
+#if __cplusplus < 201402L
+    for (const QString &val : columns) {
+#else
     for (const auto &val : columns) {
+#endif
         ++count;
         stream << val << (count < columns.size() ? " , " : " ");
     }

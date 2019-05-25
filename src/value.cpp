@@ -4,8 +4,20 @@ using namespace dbhelper;
 
 QVariant Value::valueAt(const QString &column) const noexcept
 {
-    auto it = std::find_if(values.cbegin(), values.cend(),
-                           [&column](const auto& p) { return p.first == column; });
+#if __cplusplus < 201402L
+    std::vector<std::pair<QString, QVariant>>::const_iterator
+#else
+    auto
+#endif
+   it = std::find_if(values.cbegin(), values.cend(),
+                           [&column]
+#if __cplusplus < 201402L
+                     (const std::pair<QString, QVariant> &p)
+#else
+                     (const auto &p)
+#endif
+                    { return p.first == column; });
+
     if (it != values.cend())
         return (*it).second;
     return {};
